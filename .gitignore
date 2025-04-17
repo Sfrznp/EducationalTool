@@ -1,0 +1,17 @@
+# Ignore Python venv and compiled files
+venv/
+__pycache__/
+*.pyc
+
+# Ignore environment variables
+.env
+
+# Node modules (when we set up frontend)
+node_modules/
+dist/
+build/
+
+# Ignore editor configs (optional)
+.vscode/
+.idea/
+.DS_Store
