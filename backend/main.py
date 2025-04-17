@@ -6,6 +6,9 @@ from video_fetcher import search_youtube_videos
 from transcript_fetcher import fetch_transcript
 from openai_evaluator import evaluate_video
 
+from video_ranker import find_top_videos
+
+
 
 
 app = FastAPI()
@@ -48,6 +51,14 @@ def evaluate(req: EvaluationRequest):
     result = evaluate_video(req.transcript, req.topic, req.user_level)
     return result
 
+class VideoRequest(BaseModel):
+    topic: str
+    user_level: str
+
+@app.post("/recommend_videos/")
+def recommend_videos(req: VideoRequest):
+    top_videos = find_top_videos(req.topic, req.user_level)
+    return {"videos": top_videos}
 
 
 
