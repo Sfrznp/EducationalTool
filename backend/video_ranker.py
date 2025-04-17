@@ -9,6 +9,8 @@ def find_top_videos(topic: str, user_level: str, max_results: int = 5):
     ranked = []
     for video in video_candidates:
         transcript = fetch_transcript(video["video_id"])
+        if not transcript.strip():
+            continue
         evaluation = evaluate_video(transcript, topic, user_level)
         ranked.append({
             "video_id": video["video_id"],
