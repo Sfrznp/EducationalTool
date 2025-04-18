@@ -18,7 +18,8 @@ def find_top_videos(topic: str, user_level: str, max_results: int = 5):
             "description": video["description"],
             "thumbnail": video["thumbnail"],
             "score": evaluation["score"],
-            "reason": evaluation["reason"]
+            "reason": evaluation["reason"],
+            "transcript": transcript
         })
 
     # Sort by score, highest first

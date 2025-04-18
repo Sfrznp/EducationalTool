@@ -5,8 +5,8 @@ from config import OPENAI_API_KEY, YOUTUBE_API_KEY  # this will validate keys at
 from video_fetcher import search_youtube_videos
 from transcript_fetcher import fetch_transcript
 from openai_evaluator import evaluate_video
-
 from video_ranker import find_top_videos
+from quiz_generator import generate_quiz
 
 
 
@@ -59,6 +59,15 @@ class VideoRequest(BaseModel):
 def recommend_videos(req: VideoRequest):
     top_videos = find_top_videos(req.topic, req.user_level)
     return {"videos": top_videos}
+
+class QuizRequest(BaseModel):
+    transcript: str
+    topic: str
+    user_level: str
+
+@app.post("/generate_quiz/")
+def generate_quiz_endpoint(req: QuizRequest):
+    return generate_quiz(req.transcript, req.topic, req.user_level)
 
 
 

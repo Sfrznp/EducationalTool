@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
+import "./quiz.css";
+import "./video.css";
+
+
 
 
 function App() {
   const [topic, setTopic] = useState("");
-  const [level, setLevel] = useState("beginner");
+  const [level, setLevel] = useState("");
   const [loading, setLoading] = useState(false);
   const [videos, setVideos] = useState([]);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [quizData, setQuizData] = useState(null);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,28 +40,54 @@ function App() {
     }
   };
 
+  const handleGenerateQuiz = async () => {
+    setLoading(true);
+    setSelectedAnswers({});
+    try {
+      const transcript = videos.map(v => v.transcript).join(" ");
+      const response = await fetch("http://127.0.0.1:8000/generate_quiz/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ topic, user_level: level, transcript }),
+      });
+      const data = await response.json();
+      setQuizData(data.questions);
+      setShowQuiz(true);
+    } catch (err) {
+      alert("Quiz failed to load.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
   return (
-    <div className="w-screen h-screen bg-gradient-to-br from-indigo-100 via-white to-cyan-100 text-gray-800 flex items-center justify-center">
-      <div className="max-w-3xl w-full bg-white p-100 rounded-xl shadow-md">
-        <h1 className="text-3xl font-bold mb-4 text-center">
+    <div className="video-page">
+      <div className="video-wrapper">
+        <h1>
           AI Video Recommender
         </h1>
-        <div className="flex flex-col items-center justify-center min-h-[50vh]">
-        <form onSubmit={handleSubmit} className="space-y-4">
+
+        <form onSubmit={handleSubmit} className="input-section">
           <input
             type="text"
             placeholder="What do you want to learn? (e.g. Binary Search)"
-            className="w-full border border-gray-300 p-3 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="input-field"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             required
           />
 
           <select
-            className="w-full border border-gray-300 p-3 rounded-md"
+            className="input-select"
             value={level}
             onChange={(e) => setLevel(e.target.value)}
+            required
           >
+            <option value="" disabled hidden>
+              Select your knowledge level!
+            </option>
             <option value="beginner">Beginner</option>
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
@@ -61,55 +95,131 @@ function App() {
 
           <button
             type="submit"
-            className={`w-full text-white font-semibold py-3 rounded-md transition ${
-              loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-            }`}
+            className="input-button"
             disabled={loading}
           >
             {loading ? (
-              <span className="inline-flex gap-1 text-white font-semibold">
-                <span className="animate-bounce">.</span>
-                <span className="animate-bounce delay-100">.</span>
-                <span className="animate-bounce delay-200">.</span>
+              <span className="loading-dots">
+                <span>L</span>
+                <span>o</span>
+                <span>a</span>
+                <span>d</span>
+                <span>i</span>
+                <span>n</span>
+                <span>g</span>
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
               </span>
             ) : (
               "Search"
             )}
-
           </button>
-
         </form>
-        </div>
 
+
+        {!showQuiz && videos.length > 0 && (
         <div className="mt-8">
+          {/* For debuging!! */}
           {console.log("Rendering videos:", videos)}
 
-          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-1">
+
+          <div className="video-section">
             {videos.map((video, index) => (
-              <div
-                key={video.video_id}
-                className="mb-6 border border-gray-200 p-4 rounded-lg bg-white shadow hover:shadow-xl transform transition duration-300 hover:scale-[1.02]"
-                >
-                  <h2 className="text-xl font-semibold mb-1 text-gray-900">{video.title}</h2>
-                  <p className="text-sm text-gray-600 mb-2">{video.reason}</p>
-                  <div className="mb-2">
-                    <iframe
-                      width="100%"
-                      height="315"
-                      src={`https://www.youtube.com/embed/${video.video_id}`}
-                      title={`Video ${index + 1}`}
-                      frameBorder="0"
-                      className="rounded-md"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    ></iframe>
+              <div key={video.video_id} className="video-card">
+                <iframe
+                  className="video-iframe"
+                  src={`https://www.youtube.com/embed/${video.video_id}`}
+                  title={`Video ${index + 1}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+
+                <div className="video-content">
+                  <h2 className="video-title">{video.title}</h2>
+                  <p className="video-reason">{video.reason}</p>
+                  <div className="video-meta">
+                    <span className="video-score">Score: {video.score}/10</span>
+                    <span className="video-index">Video {index + 1}</span>
                   </div>
-                  <p className="text-sm text-gray-700 font-medium">Score: {video.score}/10</p>
                 </div>
-            
+              </div>
             ))}
           </div>
         </div>
+        )}
+        {videos.length > 0 && !showQuiz && (
+          <div className="quiz-button-container">
+            <button
+              onClick={handleGenerateQuiz}
+              className="quiz-button"
+              disabled={loading}
+            >
+              {loading ? (
+              <span className="loading-dots">
+                <span>Generating</span>
+                <span>Questions</span>
+                <span>.</span>
+                <span>.</span>
+                <span>.</span>
+              </span>
+            ) : (
+              "Take Quiz"
+            )}
+            </button>
+          </div>
+        )}
+
+        {showQuiz && quizData && (
+          <div className="mt-8 bg-white p-6 rounded shadow">
+            <h2>Quiz</h2>
+            {quizData.map((q, qi) => (
+              <div key={qi} className="mb-6">
+                <p className="font-medium">{q.question}</p>
+                <div className="mt-2 space-y-1">
+                  {q.options.map((opt, oi) => {
+                    const isSelected = selectedAnswers[qi] === opt[0];
+                    const isCorrect = q.answer === opt[0];
+                    return (
+                      <div
+                        key={oi}
+                        onClick={() =>
+                          setSelectedAnswers({ ...selectedAnswers, [qi]: opt[0] })
+                        }
+                        className={`quiz-option ${
+                          isSelected
+                            ? isCorrect
+                              ? "correct"
+                              : "incorrect"
+                            : ""
+                        }`}
+                      >
+                        {opt}
+                      </div>
+                    );
+                  })}
+                </div>
+                {selectedAnswers[qi] && (
+                  <p className="text-sm mt-1 text-gray-700">
+                    {selectedAnswers[qi] === q.answer
+                      ? "Correct!"
+                      : `Wrong. ${q.explanation}`}
+                  </p>
+                )}
+              </div>
+            ))}
+            <div className="text-center">
+              <button
+                onClick={() => setShowQuiz(false)}
+                className="quiz-button"
+              >
+                Back to Videos
+              </button>
+            </div>
+          </div>
+        )}
+
+
       </div>
     </div>
   );

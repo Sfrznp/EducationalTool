@@ -1,0 +1,223 @@
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #1e3a8a; /* deep blue */
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1e3a8a; /* deep blue */
+    margin-bottom: 1.5rem;
+    text-align: center;
+    border-bottom: 2px solid #e5e7eb;
+    padding-bottom: 2rem;
+  }
+
+
+.video-section {
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .video-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+  }
+  
+  .video-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .video-iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+  }
+  
+  .video-content {
+    padding: 1rem;
+  }
+  
+  .video-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+  }
+  
+  .video-reason {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+  }
+  
+  .video-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: #4b5563;
+    font-weight: 500;
+  }
+  
+  .video-score {
+    background-color: #dbeafe;
+    color: #1e40af;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+  }
+  
+  .video-index {
+    font-size: 0.75rem;
+    color: #9ca3af;
+  }
+  
+
+  .video-page {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background: linear-gradient(to bottom right, #e0e7ff, #ffffff, #cffafe);
+    color: #1f2937;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  
+  .video-wrapper {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 2rem;
+    max-width: 960px;
+    width: 100%;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+  }
+  
+
+  .input-section {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-bottom: 1rem;
+  }
+  
+  .input-field {
+    width: 450px;
+    margin: 0 auto;
+    padding: 0.75rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+    transition: box-shadow 0.2s ease;
+    text-align: center;
+  }
+  
+  .input-field:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* blue ring */
+    border-color: #3b82f6;
+  }
+  
+  .input-select {
+    margin: 0 auto;
+    text-align: center;
+    width: 480px;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .input-button {
+    margin: 0 auto;
+    text-align: center;
+    width: 200px;
+    background-color: #2563eb;
+    color: white;
+    border: 1px solid #d1d5db;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-shadow: #1f2937;
+  }
+  
+  .input-button:hover {
+    background-color: blueviolet;
+  }
+  
+  .input-button:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+  }
+  
+  .loading-dots {
+    display: inline-flex;
+    gap: 0.25rem;
+    font-weight: 600;
+    color: white;
+  }
+  
+  .loading-dots span {
+    animation: bounce 0.6s infinite alternate;
+  }
+  
+  .loading-dots span:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  .loading-dots span:nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  
+  @keyframes bounce {
+    from {
+      transform: translateY(0px);
+    }
+    to {
+      transform: translateY(-5px);
+    }
+  }
+  
+
+  .quiz-button-container {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  .quiz-button {
+    background-color: #10b981; /* emerald-500 */
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .quiz-button:hover {
+    background-color: #059669; /* emerald-600 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+  }
+  
+  .quiz-button:active {
+    transform: translateY(0);
+  }
+  
