@@ -11,5 +11,5 @@ def fetch_transcript(video_id: str) -> str:
         transcript = YouTubeTranscriptApi.get_transcript(video_id)
         full_text = " ".join([entry["text"] for entry in transcript])
         return full_text
-    except (TranscriptsDisabled, NoTranscriptFound):
+    except (TranscriptsDisabled, NoTranscriptFound, Exception):
         return ""

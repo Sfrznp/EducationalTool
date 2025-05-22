@@ -45,29 +45,33 @@ class EvaluationRequest(BaseModel):
     transcript: str
     topic: str
     user_level: str
+    details: str
+
 
 @app.post("/evaluate_video/")
 def evaluate(req: EvaluationRequest):
-    result = evaluate_video(req.transcript, req.topic, req.user_level)
+    result = evaluate_video(req.transcript, req.topic, req.user_level, req.details)
     return result
 
 class VideoRequest(BaseModel):
     topic: str
     user_level: str
+    details: str
 
 @app.post("/recommend_videos/")
 def recommend_videos(req: VideoRequest):
-    top_videos = find_top_videos(req.topic, req.user_level)
+    top_videos = find_top_videos(req.topic, req.user_level, req.details)
     return {"videos": top_videos}
 
 class QuizRequest(BaseModel):
     transcript: str
     topic: str
     user_level: str
+    details: str
 
 @app.post("/generate_quiz/")
 def generate_quiz_endpoint(req: QuizRequest):
-    return generate_quiz(req.transcript, req.topic, req.user_level)
+    return generate_quiz(req.transcript, req.topic, req.user_level, req.details)
 
 
 

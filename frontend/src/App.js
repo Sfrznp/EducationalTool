@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import "./quiz.css";
 import "./video.css";
 
 
-
-
 function App() {
   const [topic, setTopic] = useState("");
+  const [details, setDetails] = useState("");
   const [level, setLevel] = useState("");
   const [loading, setLoading] = useState(false);
   const [videos, setVideos] = useState([]);
@@ -20,14 +18,19 @@ function App() {
     e.preventDefault();
     setLoading(true);
     setVideos([]);
+    setShowQuiz(false);        
+    setQuizData(null);          
+    setSelectedAnswers({});     
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/recommend_videos/", {
+      //127.0.0.1 -> for local
+      const response = await fetch(`https://edutube.cs.vt.edu/api/recommend_videos/`, {
+      // const response = await fetch(`http://127.0.0.1:8000/recommend_videos/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ topic, user_level: level }),
+        body: JSON.stringify({ topic, user_level: level, details }),
       });
 
       const data = await response.json();
@@ -48,7 +51,7 @@ function App() {
       const response = await fetch("http://127.0.0.1:8000/generate_quiz/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic, user_level: level, transcript }),
+        body: JSON.stringify({ topic, user_level: level, transcript, details }),
       });
       const data = await response.json();
       setQuizData(data.questions);
@@ -66,8 +69,9 @@ function App() {
     <div className="video-page">
       <div className="video-wrapper">
         <h1>
-          AI Video Recommender
+          EduTube AI
         </h1>
+        
 
         <form onSubmit={handleSubmit} className="input-section">
           <input
@@ -78,6 +82,16 @@ function App() {
             onChange={(e) => setTopic(e.target.value)}
             required
           />
+          
+          <textarea
+            type="text"
+            className="input-field-detail"
+            placeholder="Tell us more about it!  (e.g., step-by-step explanation, use case, code examples)"
+            value={details}
+            onChange={(e) => setDetails(e.target.value)}
+            rows={5}
+          />
+
 
           <select
             className="input-select"
@@ -138,6 +152,7 @@ function App() {
                 <div className="video-content">
                   <h2 className="video-title">{video.title}</h2>
                   <p className="video-reason">{video.reason}</p>
+                  <p><strong>Requirements:</strong> {video.requirements}</p>
                   <div className="video-meta">
                     <span className="video-score">Score: {video.score}/10</span>
                     <span className="video-index">Video {index + 1}</span>

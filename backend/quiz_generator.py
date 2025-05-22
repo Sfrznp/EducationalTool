@@ -3,7 +3,7 @@ from config import OPENAI_API_KEY
 
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-def generate_quiz(transcript: str, topic: str, user_level: str) -> dict:
+def generate_quiz(transcript: str, topic: str, user_level: str, details: str) -> dict:
     if len(transcript.strip()) == 0:
         return {"questions": [], "error": "Transcript is empty"}
 
@@ -12,8 +12,11 @@ You are a helpful CS tutor. Your job is to create quiz questions to help learner
 
 Topic: {topic}
 User Level: {user_level}
+Details: {details}
 
-Based on the following transcript, generate 3 short multiple-choice quiz questions. Each question should have:
+Based on the following transcript, generate 3 short multiple-choice quiz questions. 
+Make sure the questions are sutable based on the details user gave.
+Each question should have:
 1. The question text
 2. 4 answer options (a-d)
 3. The correct answer letter (e.g. "b")

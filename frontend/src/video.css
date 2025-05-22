@@ -1,4 +1,9 @@
-
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
 h1 {
     font-size: 3rem;
     font-weight: bold;
@@ -52,14 +57,19 @@ h1 {
   }
   
   .video-title {
-    font-size: 1.125rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: #1f2937;
     margin-bottom: 0.25rem;
   }
   
   .video-reason {
-    font-size: 0.875rem;
+    font-size: 1.1rem;
+    color: #6b7280;
+    margin-bottom: 0.75rem;
+  }
+  .video-requirements {
+    font-size: 1.1rem;
     color: #6b7280;
     margin-bottom: 0.75rem;
   }
@@ -77,19 +87,23 @@ h1 {
     color: #1e40af;
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
   
   .video-index {
-    font-size: 0.75rem;
-    color: #9ca3af;
+    background-color: #dadfe6;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    color: #474a4e;
   }
   
 
   .video-page {
     min-height: 100vh;
     padding: 2rem 1rem;
-    background: linear-gradient(to bottom right, #e0e7ff, #ffffff, #cffafe);
+    /* background: linear-gradient(to bottom right, #e0e7ff, #ffffff, #cffafe); */
+    background: linear-gradient(to bottom right, #c2c6cf, #9abdc0,  #c19e98);
     color: #1f2937;
     display: flex;
     justify-content: center;
@@ -120,7 +134,7 @@ h1 {
     padding: 0.75rem;
     border: 2px solid #d1d5db;
     border-radius: 0.5rem;
-    font-size: 1rem;
+    font-size: 1.15rem;
     outline: none;
     transition: box-shadow 0.2s ease;
     text-align: center;
@@ -130,6 +144,26 @@ h1 {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* blue ring */
     border-color: #3b82f6;
   }
+
+  .input-field-detail {
+    width: 450px;
+    height: 200px;
+    margin: 0 auto;
+    padding: 0.75rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    outline: none;
+    transition: box-shadow 0.2s ease;
+    /* text-align: center; */
+    resize: none; 
+  }
+  
+  .input-field-detail:focus {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); /* blue ring */
+    border-color: #3b82f6;
+  }
+  
   
   .input-select {
     margin: 0 auto;
